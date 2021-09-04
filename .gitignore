@@ -2,3 +2,4 @@ bin/
 disc/
 res/
 .sconsign.dblite
+*.o

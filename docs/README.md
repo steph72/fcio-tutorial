@@ -130,22 +130,22 @@ At this point, it's prudent to clean up our project a little, so that we don't r
 ```
 fciotutorial/     
      |
-     |------ test.c                    the main tutorial test program
+     |--- test.c                 the main tutorial test program
      |
-     |------ tools/                    tools needed to build project resources
-     |         |----- png2fci.py
+     |--- tools/                 tools needed to build project resources
+     |      |----- png2fci.py
      |
-     |------ mega65-libc/              the mega65 C library including FCIO
+     |--- mega65-libc/           the mega65 C library including FCIO
      |
-     |------ res/                      any resources the final program is going to use
+     |--- res/                   any resources the final program is going to use
      |
-     |------ img-src/                  source PNG images
+     |--- img-src/               source PNG images
      |
-     |------ c65-bin/                  additional binaries for C65 mode
+     |--- c65-bin/               additional binaries for C65 mode
      |
-     |------ bin/                      the compiled binary lives here
+     |--- bin/                   the compiled binary lives here
      |
-     |------ disc/                     place for .d81 disc images
+     |--- disc/                  place for .d81 disc images
 ```
 
 Before continuing with this tutorial, download `png2fci.py` and put it into your `tools` folder.
@@ -413,3 +413,4 @@ scons: done building targets.
 And there we have it: With one simple call of `scons`, you can now compile your sources and build the disc image in one go. 
 
 With the tedious stuff out of the way, we're now ready to dive a little deeper into FCIO!
+
