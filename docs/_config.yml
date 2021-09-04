@@ -1,3 +1,3 @@
-theme: jekyll-theme-slate
+theme: jekyll-theme-dinky
 title: "FCIO tutorial"
 description: "Accessing the MEGA65 full colour mode from C!"
