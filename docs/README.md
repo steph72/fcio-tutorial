@@ -137,7 +137,7 @@ fciotutorial/
      |
      |--- mega65-libc/           the mega65 C library including FCIO
      |
-     |--- res/                   any resources the final program is going to use
+     |--- res/                   resources for the final program 
      |
      |--- img-src/               source PNG images
      |
