@@ -220,15 +220,15 @@ void main() {
 }
 ```
 
-Notice the single line that's been added? `fc_displayFCIFile()` is really all we need to display an FCI file on the screen. Noice.
+Notice the single line that's been added? `fc_displayFCIFile(filename,row,column)` is really all we need to display an FCI file on the screen. It takes as parameters the file name of an FCI file, and the top left row and column. Noice!
 
-You can now compile the program again using roughly the same command as before, only this time we store the resulting binary in the `bin` folder.
+You can now compile the program again using roughly the same command as before, only this time store the resulting binary in the `bin` folder.
 
 ```
 cl65 -Imega65-libc/cc65/include -o bin/test test.c mega65-libc/cc65/src/fcio.c mega65-libc/cc65/src/memory.c
 ```
 
-But don't fire up your MEGA65 (or emulator) just yet, because obviously we're not quite done yet. We first need to provide the MEGA65 with a disc image to load the FCI file from. 
+But don't fire up your MEGA65 (or emulator) just yet, because obviously we're not quite done yet. We still need to provide the MEGA65 with a disc image to load the FCI file from. 
 
 ### 4.1 Building the disc image
 
@@ -256,11 +256,11 @@ So, finally we have a disc image with both the binary and the picture file to lo
 
 <img src="tut2.png" width="400"/><br/>
 
-You have just configured a MEGA65 FCM screen and displayed some text and a pretty picture on it... with just 16 lines of code!
+You have just configured a MEGA65 FCM screen and displayed some text and a pretty picture on it... with just 16 lines of code! Behind the scenes, FCIO takes care of loading your file into extended memory (it doesn't use up any additional memory in the first 64k), organizing palette space and actually drawing the image.
 
 ## 5. Excursion: Making life easier
 
-At this point, manually invoking the compiler and linker, running png2fci and building a new disc image whenever something has changed has become a little bit of a nuisance.
+At this stage, manually invoking the compiler and linker, running png2fci and building a new disc image whenever something has changed has become a little bit of a nuisance.
 
 The usual way to deal with this problem is the use of *Makefiles*. Now in my humble opinion, Makefiles are a hostile and unreadable monstrosity, which is why I like to use *SCons* instead. 
 
@@ -413,4 +413,64 @@ scons: done building targets.
 And there we have it: With one simple call of `scons`, you can now compile your sources and build the disc image in one go. 
 
 With the tedious stuff out of the way, we're now ready to dive a little deeper into FCIO!
+
+## 6. More about graphic areas
+
+When we displayed the bitmap image via `fc_displayFCIFile("candor.fci",25,16)`, there were – you guessed it – quite a lot of things going on behind the scenes. Here is what `fc_displayFCIFile` actually does:
+
+- call `fc_loadFCI()` to
+   - create a `fciInfo` structure to store information about the bitmap
+   - load the first few bytes of the FCI file containing metadata like palette an bitmap size
+   - allocate palette memory in bank 1
+   - allocate bitmap memory in banks 2-3
+   - load the corresponding parts of the FCI file into the previously allocated memory areas
+- call `fc_displayFCI()` to
+   - fill the correct spaces on the screen with character cells pointing to the loaded image
+   - set the VIC-IV palette
+
+Of course there is nothing stopping us from actually doing these things by ourselves, have a little peek into the `fciInfo` structure and – for example – display multiple copies of the same image:
+
+```c
+#include <fcio.h>
+#include <conio.h>
+
+void main()
+{
+   fciInfo *imageInfo;
+
+   fc_init(1, 1, 0, 60, 0);
+
+   imageInfo = fc_loadFCI("candor.fci", 0, 0);
+
+   fc_printf("image has %d rows, %d columns\n", imageInfo->rows, imageInfo->columns);
+   fc_printf("image bitmap  at $%lx\n", imageInfo->baseAdr);
+   fc_printf("image palette at $%lx\n", imageInfo->paletteAdr);
+   fc_printf("image palette has %d entries\n", imageInfo->paletteSize);
+   fc_puts("-- press any key to display images --\n");
+   fc_getkey();
+
+   fc_displayFCI(imageInfo, fc_wherex(), fc_wherey(), true);
+   fc_displayFCI(imageInfo, fc_wherex()+imageInfo->columns, fc_wherey(), true);
+
+   while (1);
+}
+```
+In this example, we use four new functions to load and display FCI images:
+
+- `fciInfo *fc_loadFCI(char *filename, himemPtr bitmapAddress, himemPtr paletteAddress)`
+
+   Loads a FCI file. The bitmap data is stored at `address`, while the palette data is stored at `paletteAddress`. When passing '0' as address, sufficient memory is allocated automatically in memory banks 1, 3 and 4. 
+
+- `void fc_displayFCI(fciInfo *info, byte x0, byte y0, bool setPalette)`
+
+   Displays the image described by `info` at characer position `x0,y0`. If `setPalette` is `true`, the corresponding palette is also loaded into the VIC-IV. If it is `false`, the current palette is used (this allows displaying multiple images with the same palette and not having to store multiple copies identical palette data).
+
+- `byte fc_wherex()` and `byte fc_wherey()`
+
+   Return the position of the current text cursor. In the example, this provides an  easy way to display the pictur right underneath the text.
+
+As you can see, there are quite a few things we can do with an `fciInfo` block. For example, we can load multiple images into memory and display them side-by-side. Or, we can display the same FCI image repeatedly by calling `fci_display()` multiple times with the same `fciInfo` block.
+
+
+### 6.1. Advanced techniques
 
