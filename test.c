@@ -6,6 +6,7 @@ void main()
    fciInfo *imageInfo;
 
    fc_init(1, 1, 0, 60, 0);
+   bordercolor(6);
 
    imageInfo = fc_loadFCI("candor.fci", 0, 0);
 

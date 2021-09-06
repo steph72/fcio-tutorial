@@ -467,10 +467,28 @@ In this example, we use four new functions to load and display FCI images:
 
 - `byte fc_wherex()` and `byte fc_wherey()`
 
-   Return the position of the current text cursor. In the example, this provides an  easy way to display the pictur right underneath the text.
+   Return the position of the current text cursor. In our example, this provides an  easy way to display the picture right underneath the text.
 
-As you can see, there are quite a few things we can do with an `fciInfo` block. For example, we can load multiple images into memory and display them side-by-side. Or, we can display the same FCI image repeatedly by calling `fci_display()` multiple times with the same `fciInfo` block.
+As you can see, there is a lot we can do with an `fciInfo` block. For example, we can load multiple images into memory and display them side-by-side. Or, we can display the same FCI image repeatedly by calling `fci_display()` multiple times with the same `fciInfo` block.
+
+<img src="tut3.png" width="400"/><br/>
 
 
 ### 6.1. Advanced techniques
+
+TODO
+
+
+## 8. Outlook
+
+FCIO was originally written as a support library for a classic MEGA65 CRPG. The requirements of such a game are comparatively simple: Organizing and displaying multiple rectangular graphic areas, and providing fully functioning text display with windowing and scrolling on FCM screens.
+With this feature set of course, FCIO only scratches the surface of what is possible with Full Colour Mode. Just some of the future posibilities of FCIO are:
+
+- raster rewrite buffer support
+- advanced graphics operations (mirror/flip/etc.)
+- graphics primitives (plotting into bitmap areas)
+- 2nd palette bank support
+- etc. pp.
+
+Since I'll not be able to implement these things in the near future (because that way I'll never get my CRPG finished), I'd be delighted if someone else started tackling these things. Like all of mega65-libc, FCIO is open source and begs to be extended by *you*. 
 
