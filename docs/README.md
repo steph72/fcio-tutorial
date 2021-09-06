@@ -486,13 +486,12 @@ As you can see, there is a lot we can do with an `fciInfo` block. For example, w
 ## 8. Outlook
 
 FCIO was originally written as a support library for a classic MEGA65 CRPG. The requirements of such a game are comparatively simple: Organizing and displaying multiple rectangular graphic areas, and providing fully functioning text display with windowing and scrolling on FCM screens.
-With this feature set of course, FCIO only scratches the surface of what is possible with Full Colour Mode. Just some of the future posibilities of FCIO are:
+With this feature set of course FCIO only scratches the surface of what is possible with Full Colour Mode. Just some of the future posibilities of FCIO are:
 
-- raster rewrite buffer support
+- raster rewrite buffer support (multiple graphics/text layers anyone?)
 - advanced graphics operations (mirror/flip/etc.)
 - graphics primitives (plotting into bitmap areas)
 - 2nd palette bank support
 - etc. pp.
 
-Since I'll not be able to implement these things in the near future (because that way I'll never get my CRPG finished), I'd be delighted if someone else started tackling these things. Like all of mega65-libc, FCIO is open source and begs to be extended by *you*. 
-
+Since I'll not be able to extend FCIO much in the near future (because that way I'll never get my CRPG finished), I'd be delighted if someone else started tackling these things. Like all of mega65-libc, FCIO is open source and begs to be extended by *you*. 
