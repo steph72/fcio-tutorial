@@ -414,7 +414,11 @@ And there we have it: With one simple call of `scons`, you can now compile your 
 
 With the tedious stuff out of the way, we're now ready to dive a little deeper into FCIO!
 
-## 6. More about graphic areas
+## 6. Text and text windows
+
+**TODO**
+
+## 7. More about graphic areas
 
 When we displayed the bitmap image via `fc_displayFCIFile("candor.fci",25,16)`, there were – you guessed it – quite a lot of things going on behind the scenes. Here is what `fc_displayFCIFile` actually does:
 
@@ -474,9 +478,9 @@ As you can see, there is a lot we can do with an `fciInfo` block. For example, w
 <img src="tut3.png" width="400"/><br/>
 
 
-### 6.1. Advanced techniques
+### 7.1. Advanced techniques
 
-TODO
+**TODO**
 
 
 ## 8. Outlook
