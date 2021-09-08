@@ -412,9 +412,71 @@ scons: done building targets.
 
 And there we have it: With one simple call of `scons`, you can now compile your sources and build the disc image in one go. 
 
-With the tedious stuff out of the way, we're now ready to dive a little deeper into FCIO!
 
 ## 6. Text and text windows
+
+Imagine you're implementing a classic graphical adventure game with graphics on top and text below. Now, wouldn't it be nice to be able to scroll and clear the text area without touching the graphics area?
+
+No problem, because here's a secret: Every character is output inside the current text window. After initializing *FCIO*, the text window spans the whole screen. But we can easily define a custom window with
+
+`textwin *fc_makeWin(byte x0, byte y0, byte width, byte height)`
+
+So, for example
+
+`myNewWin = fcMakeWin(0,28,10,10);`
+
+defines a new text window with a size of 10 by 10 characters, starting at column 0 and row 28. Now all you need to do is make the new window the *current window*. This is accomplished by the `fc_setWin` function:
+
+`fc_setWin(myNewWin);`
+
+Those of you being forced to work in modern software development's laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced in the market with basic features... but have since become the wet dream of product managers all over the globe, because now they just can tell their developers to 'just do an MVP' if they need to get something done fast.
+
+Let's put these (and a few other) new functions to use by 
+
+```
+#include <fcio.h>
+#include <stdlib.h>
+#include <conio.h>
+#include <string.h>
+
+void main()
+{
+   textwin *bottomWindow;
+   char *command;
+
+   fc_init(0, 0, 0, 30, 0);
+   bordercolor(6);
+   fc_clrscr();
+   fc_displayFCIFile("candor.fci", 3, 0);
+
+   bottomWindow = fc_makeWin(0, 24, 40, 6);
+   fc_setwin(bottomWindow);
+   fc_clrscr();
+   fc_puts("As you turn the corner, suddenly a big\n"
+           "shepherd dog stands in your way and\n"
+           "demands treats.");
+           
+   do {
+      fc_puts("\n>");
+      fc_textcolor(COLOUR_ORANGE);
+      command = fc_input(38);
+      fc_textcolor(COLOUR_GREEN);
+      fc_printf("\n%s",command);
+      free(command);
+   } while (strcmp(command,"give treats"));
+
+   fc_clrscr();
+   fc_puts("The dog moves away!");
+
+   while (1);
+}
+```
+
+
+
+
+
+
 
 **TODO**
 

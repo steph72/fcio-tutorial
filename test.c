@@ -1,24 +1,36 @@
 #include <fcio.h>
+#include <stdlib.h>
 #include <conio.h>
+#include <string.h>
 
 void main()
 {
-   fciInfo *imageInfo;
+   textwin *bottomWindow;
+   char *command;
 
-   fc_init(1, 1, 0, 60, 0);
+   fc_init(0, 0, 0, 30, 0);
    bordercolor(6);
+   fc_clrscr();
+   fc_displayFCIFile("candor.fci", 3, 0);
 
-   imageInfo = fc_loadFCI("candor.fci", 0, 0);
+   bottomWindow = fc_makeWin(0, 24, 40, 6);
+   fc_setwin(bottomWindow);
+   fc_clrscr();
+   fc_puts("As you turn the corner, suddenly a big\n"
+           "shepherd dog stands in your way and\n"
+           "demands treats.");
+           
+   do {
+      fc_puts("\n>");
+      fc_textcolor(COLOUR_ORANGE);
+      command = fc_input(38);
+      fc_textcolor(COLOUR_GREEN);
+      fc_printf("\n%s",command);
+      free(command);
+   } while (strcmp(command,"give treats"));
 
-   fc_printf("image has %d rows, %d columns\n", imageInfo->rows, imageInfo->columns);
-   fc_printf("image bitmap  at $%lx\n", imageInfo->baseAdr);
-   fc_printf("image palette at $%lx\n", imageInfo->paletteAdr);
-   fc_printf("image palette has %d entries\n", imageInfo->paletteSize);
-   fc_puts("-- press any key to display images --\n");
-   fc_getkey();
-
-   fc_displayFCI(imageInfo, fc_wherex(), fc_wherey(), true);
-   fc_displayFCI(imageInfo, fc_wherex()+imageInfo->columns, fc_wherey(), true);
+   fc_clrscr();
+   fc_puts("The dog moves away!");
 
    while (1);
 }
