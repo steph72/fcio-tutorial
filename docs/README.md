@@ -431,7 +431,7 @@ defines a new text window with a size of 10 by 10 characters, starting at column
 
 Those of you being forced to work in modern software development's laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced in the market with basic features... but have since become the wet dream of product managers all over the globe, because now they just can tell their developers to 'just do an MVP' if they need to get something done fast.
 
-Let's put these (and a few other) new functions to use by 
+Let's put these (and a few other) new functions to use by designing our own MVP of a soon-to-be adventure game:
 
 ```
 #include <fcio.h>
