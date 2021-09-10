@@ -18,7 +18,7 @@ Full Colour Mode (FCM for short) is a new screen mode of the MEGA65's video cont
 
 Since in FCM, each 8x8 pixel character cell on the screen is referenced by a 16 bit pointer, it is not compatible to 'traditional' C64 text modes and therefore not accessible via standard console libraries, such as mega65-libc's own *conio.h*. This is where *fcio* comes in.
 
-Please note that at the moment, FCIO "only" supports displaying graphics and text, but this might very well change in the future.
+Please note that at the moment, *fcio* "only" supports displaying graphics and text, but this might very well change in the future.
 
 # The Tutorial
 
@@ -77,7 +77,7 @@ void fc_init(byte h640,
 So, when initializing the library with `fc_init(0,0,0,0,0)`, here is what actually happens:
 
 - the H640 and V400 flags are set to 0, giving us a low resolution (320x200) screen.
-- by passing "0" as the "config" parameter, the standard memory configuration is selected (fcio allows you to place bitmap and character data anywhere in memory, but it can also handle those things for you when you pass '0')
+- by passing "0" as the "config" parameter, the standard memory configuration is selected (*fcio* allows you to place bitmap and character data anywhere in memory, but it can also handle those things for you when you pass '0')
 - by passing "0" as the "rows" parameter, a standard screen with 25 character rows is created. Unlike the C64, the MEGA65 allows arbitrary screen configurations. In PAL mode, it is possible to have up to 33 character rows in non-V400 modes
 - and finally, by passing "0" as the reservedBitmapFile parameter, no reserved bitmap is loaded at initialization. Don't worry about that now, we'll be looking at reserved bitmaps later.
 
@@ -103,7 +103,7 @@ There are a few things noteworthy about this program:
 
 1. We include the `conio.h` header, because we're using the `bordercolor`function to change the border colour. This shows that `conio.h` and `fcio.h` are able to coexist (in fact, some portions of `fcio.h` depend on `conio.h`). 
 
-(**IMPORTANT:** Don't even think about mixing `conio`s text output functions (clrscr, printf, etc.) to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to very sad things™. FCIO keeps some vital information stored in the memory area where the standard text screen used to be. Writing into this area is bound to cause all kinds of chaos)
+(**IMPORTANT:** Don't even think about mixing `conio`s text output functions (clrscr, printf, etc.) to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to very sad things™. *fcio* keeps some vital information stored in the memory area where the standard text screen used to be. Writing into this area is bound to cause all kinds of chaos)
 
 2. You can use `fc_printf` just like you would use the regular `printf` function. It accepts the same variable arguments and acts just like its `stdio.h` counterpart. 
 
@@ -115,13 +115,13 @@ Assuming all went well, you should now see something like this:
 
 Now we're talking! 60 rows of text in high resolution. 
 
-To be perfectly honest, this would also have been possible with standard character mode. So, it's time we unleashed FCIOs full power by displaying some pretty bitmap graphics.
+To be perfectly honest, this would also have been possible with standard character mode. So, it's time we unleashed *fcio*s full power by displaying some pretty bitmap graphics.
 
-But before we can do just that, we first have to take care of getting some pretty bitmap graphics onto the MEGA65, preferrably in a form that FCIO understands.
+But before we can do just that, we first have to take care of getting some pretty bitmap graphics onto the MEGA65, preferrably in a form that *fcio* understands.
 
 ## 3. How to get bitmap images onto the MEGA65
 
-`fcio` internally uses an image format called `.FCI` (for *full colour image*). There is nothing magical about `.FCI` images – they just have their bitmap data arranged in a way that the VIC-IV can easily display, so `fcio` doesn't need much code to load and display them which means more real estate for your programs. 
+*fcio* internally uses an image format called `.FCI` (for *full colour image*). There is nothing magical about `.FCI` images – they just have their bitmap data arranged in a way that the VIC-IV can easily display, so *fcio* doesn't need much code to load and display them which means more real estate for your programs. 
 
 There is a python tool `png2fci` available for converting PNG files to FCI images. It is available [here](https://raw.githubusercontent.com/MEGA65/mega65-tools/master/src/tools/png2fci.py).
 
@@ -258,7 +258,7 @@ So, finally we have a disc image with both the binary and the picture file to lo
 
 <img src="tut2.png" width="400"/><br/>
 
-You have just configured a MEGA65 FCM screen and displayed some text and a pretty picture on it... with just 16 lines of code! Behind the scenes, FCIO takes care of loading your file into extended memory (it doesn't use up any additional memory in the first 64k), organizing palette space and actually drawing the image.
+You have just configured a MEGA65 FCM screen and displayed some text and a pretty picture on it... with just 16 lines of code! Behind the scenes, *fcio* takes care of loading your file into extended memory (it doesn't use up any additional memory in the first 64k), organizing palette space and actually drawing the image.
 
 ## 5. Excursion: Making life easier
 
@@ -419,7 +419,7 @@ And there we have it: With one simple call of `scons`, you can now compile your 
 
 Imagine you're implementing a classic graphical adventure game with graphics on top and text below. Now, wouldn't it be nice to be able to scroll and clear the text area without touching the graphics area?
 
-No problem, because here's a secret: Every character is output inside the current text window. After initializing *FCIO*, the text window spans the whole screen. But we can easily define a custom window with
+No problem, because here's a secret: Every character is output inside the current text window. After initializing *fcio*, the text window spans the whole screen. But we can easily define a custom window with
 
 `textwin *fc_makeWin(byte x0, byte y0, byte width, byte height)`
 
@@ -433,7 +433,7 @@ defines a new text window with a size of 6 by 40 characters, starting at column 
 
 Those of you slaving away in modern software development's agile laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced to the market only with basic features and then expanded later. The sad reality is of course that most MVPs get barely done and then are never touched again, because just and a little more than the bare minimum would have made a big difference towards customer acceptance.
 
-But I digress. Let's put FCIO's windowing functions (and some more new stuff) to use by designing our own MVP of a soon-to-be adventure game:
+But I digress. Let's put *fcio*'s windowing functions (and some more new stuff) to use by designing our own MVP of a soon-to-be adventure game:
 
 ```c
 #include <fcio.h>
@@ -474,7 +474,7 @@ void main()
 }
 ```
 
-As you can see, the second `fc_clearscr()` doesn't affect our graphics at all, `fc_clearscr` (and every other FCIO function regarding text) always works inside the currently defined window.
+As you can see, the second `fc_clearscr()` doesn't affect our graphics at all, `fc_clearscr` (and every other *fcio* function regarding text) always works inside the currently defined window.
 
 Also, when the text cursor has reached the bottom end of the current window, the window's contents are automatically scrolled.
 
@@ -552,12 +552,12 @@ As you can see, there is a lot we can do with an `fciInfo` block. For example, w
 
 **TODO**
 
-(while waiting for me to deliver this chapter, you're hereby encouraged to have a look at the header file `fcio.h`. Every function of FCIO has extensive inline documentation!)
+(while waiting for me to deliver this chapter, you're hereby encouraged to have a look at the header file `fcio.h`. Every function of *fcio* has extensive inline documentation!)
 
 ## 8. Outlook
 
-FCIO was originally written as a support library for a classic MEGA65 CRPG. The requirements of such a game are comparatively simple: Organizing and displaying multiple rectangular graphic areas, and providing fully functioning text display with windowing and scrolling on FCM screens.
-With this feature set of course FCIO only scratches the surface of what is possible with Full Colour Mode. Just some of the future posibilities of FCIO are:
+*fcio* was originally written as a support library for a classic MEGA65 CRPG. The requirements of such a game are comparatively simple: Organizing and displaying multiple rectangular graphic areas, and providing fully functioning text display with windowing and scrolling on FCM screens.
+With this feature set of course *fcio* only scratches the surface of what is possible with Full Colour Mode. Just some of the future posibilities of *fcio* are:
 
 - raster rewrite buffer support (multiple graphics/text layers anyone?)
 - advanced graphics operations (mirror/flip/etc.)
@@ -565,4 +565,4 @@ With this feature set of course FCIO only scratches the surface of what is possi
 - 2nd palette bank support
 - etc. pp.
 
-Since I'll not be able to extend FCIO much in the near future (because that way I'll never get my CRPG finished), I'd be delighted if someone else started tackling these things. Like all of mega65-libc, FCIO is open source and begs to be extended by *you*. 
+Since I'll not be able to extend *fcio* much in the near future (because that way I'll never get my CRPG finished), I'd be delighted if someone else started tackling these things. Like all of mega65-libc, *fcio* is open source and begs to be extended by *you*. 
