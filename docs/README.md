@@ -423,17 +423,17 @@ No problem, because here's a secret: Every character is output inside the curren
 
 So, for example
 
-`myNewWin = fcMakeWin(0,28,10,10);`
+`myNewWin = fc_makeWin(0, 24, 40, 6);`
 
-defines a new text window with a size of 10 by 10 characters, starting at column 0 and row 28. Now all you need to do is make the new window the *current window*. This is accomplished by the `fc_setWin` function:
+defines a new text window with a size of 6 by 40 characters, starting at column 0 and row 24. Now all you need to do is make the new window the *current window*. This is accomplished by the `fc_setWin` function:
 
 `fc_setWin(myNewWin);`
 
-Those of you being forced to work in modern software development's laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced in the market with basic features... but have since become the wet dream of product managers all over the globe, because now they just can tell their developers to 'just do an MVP' if they need to get something done fast.
+Those of you slaving away in modern software development's agile laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced to the market only with basic features... to be expanded upon later. But the sad reality of it is that most MVPs get barely done and then are never touched again, because just and a little more than the bare minimum would have made a big difference in customer acceptance.
 
-Let's put these (and a few other) new functions to use by designing our own MVP of a soon-to-be adventure game:
+But I digress. Let's put the new functions to use by designing our own MVP of a soon-to-be adventure game:
 
-```
+```c
 #include <fcio.h>
 #include <stdlib.h>
 #include <conio.h>
@@ -461,7 +461,7 @@ void main()
       fc_textcolor(COLOUR_ORANGE);
       command = fc_input(38);
       fc_textcolor(COLOUR_GREEN);
-      fc_printf("\n%s",command);
+      fc_printf("\nI'm sorry, I don't understand '%s'",command);
       free(command);
    } while (strcmp(command,"give treats"));
 
@@ -478,7 +478,6 @@ void main()
 
 
 
-**TODO**
 
 ## 7. More about graphic areas
 
