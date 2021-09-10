@@ -125,7 +125,7 @@ There is a python tool `png2fci` available for converting PNG files to FCI image
 
 ### 3.1. Excursion: Organizing things (at least a little bit)
 
-At this point, it's prudent to clean up our project a little, so that we don't run into troubles later on. I suggest the following folder structure (we're going to use the various subfolders in the further course of this tutorial):
+At this point, it's prudent to clean up our project a little, so that we don't run into trouble later on. I suggest the following folder structure (we're going to use the various subfolders in the further course of this tutorial):
 
 ```
 fciotutorial/     
