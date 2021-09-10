@@ -33,7 +33,7 @@ void main() {
    while(1);
 }
 ```
-Assuming you have the mega65-libc in the same folder as the test program, compile your program with
+Assuming you have mega65-libc in the same folder as the test program, compile your program with
 
 ```
 cl65 -Imega65-libc/cc65/include -o test test.c mega65-libc/cc65/src/fcio.c mega65-libc/cc65/src/memory.c
