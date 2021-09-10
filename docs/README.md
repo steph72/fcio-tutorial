@@ -103,7 +103,7 @@ There are a few things noteworthy about this program:
 
 1. We include the `conio.h` header, because we're using the `bordercolor`function to change the border colour. This shows that `conio.h` and `fcio.h` are able to coexist (in fact, some portions of `fcio.h` depend on `conio.h`). 
 
-(**IMPORTANT:** Don't even think about mixing `conio`s text output functions (clrscr, printf, etc.) to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to very sad things™. *fcio* keeps some vital information stored in the memory area where the standard text screen used to be. Writing into this area is bound to cause all kinds of chaos)
+   (**IMPORTANT:** Don't even think about mixing `conio`s text output functions (clrscr, printf, etc.) to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to very sad things™. *fcio* keeps some vital information stored in the memory area where the standard text screen used to be. Writing into this area is bound to cause all kinds of chaos)
 
 2. You can use `fc_printf` just like you would use the regular `printf` function. It accepts the same variable arguments and acts just like its `stdio.h` counterpart. 
 
