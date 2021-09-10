@@ -101,7 +101,9 @@ void main() {
 ```
 There are a few things noteworthy about this program:
 
-1. We include the `conio.h` header, because we're using the `bordercolor`function to change the border colour. This shows that `conio.h` and `fcio.h` are able to coexist (in fact, some portions of `fcio.h` depend on `conio.h`). Just don't think about mixing `conio`s text output functions to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to sad things™.
+1. We include the `conio.h` header, because we're using the `bordercolor`function to change the border colour. This shows that `conio.h` and `fcio.h` are able to coexist (in fact, some portions of `fcio.h` depend on `conio.h`). 
+
+(**IMPORTANT:** Don't even think about mixing `conio`s text output functions (clrscr, printf, etc.) to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to very sad things™. FCIO keeps some vital information stored in the memory area where the standard text screen used to be. Writing into this area is bound to cause all kinds of chaos)
 
 2. You can use `fc_printf` just like you would use the regular `printf` function. It accepts the same variable arguments and acts just like its `stdio.h` counterpart. 
 
@@ -429,9 +431,9 @@ defines a new text window with a size of 6 by 40 characters, starting at column 
 
 `fc_setWin(myNewWin);`
 
-Those of you slaving away in modern software development's agile laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced to the market only with basic features... to be expanded upon later. But the sad reality of it is that most MVPs get barely done and then are never touched again, because just and a little more than the bare minimum would have made a big difference in customer acceptance.
+Those of you slaving away in modern software development's agile laying batteries might be familiar with the term "Minimum Viable Product". MVPs were once intented as a development technique in which a new product is introduced to the market only with basic features and then expanded later. The sad reality is of course that most MVPs get barely done and then are never touched again, because just and a little more than the bare minimum would have made a big difference towards customer acceptance.
 
-But I digress. Let's put the new functions to use by designing our own MVP of a soon-to-be adventure game:
+But I digress. Let's put FCIO's windowing functions (and some more new stuff) to use by designing our own MVP of a soon-to-be adventure game:
 
 ```c
 #include <fcio.h>
@@ -472,11 +474,19 @@ void main()
 }
 ```
 
+As you can see, the second `fc_clearscr()` doesn't affect our graphics at all, `fc_clearscr` (and every other FCIO function regarding text) always works inside the currently defined window.
 
+Also, when the text cursor has reached the bottom end of the current window, the window's contents are automatically scrolled.
 
+There is one notable new function used in this example:
 
+```
+char *fc_input(byte maxlen);
+```
 
+requests user input from the keyboard with a maximum of *maxlen* characters and returns a newly allocated array of char containing the user input (or a NULL pointer if there was no user input)
 
+**Important**: You are responsible for disposing of the returned character array when it's no longer needed. Failure to do so will eventually lead to (hard to find) out-of-memory-errors.
 
 
 ## 7. More about graphic areas
@@ -538,11 +548,11 @@ As you can see, there is a lot we can do with an `fciInfo` block. For example, w
 
 <img src="tut3.png" width="400"/><br/>
 
-
 ### 7.1. Advanced techniques
 
 **TODO**
 
+(while waiting for me to deliver this chapter, you're hereby encouraged to have a look at the header file `fcio.h`. Every function of FCIO has extensive inline documentation!)
 
 ## 8. Outlook
 
