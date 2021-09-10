@@ -2,7 +2,7 @@
 
 ## Preface: What is FCIO?
 
-*fcio* is a lightweight C library providing full colour mode support for C developers on the MEGA65:
+*fcio* is a lightweight C library providing full colour mode support for CC65 developers on the MEGA65:
 
 - standard text input/output facilities (fc_puts, fc_printf, fc_input...)
 - text window support (fc_makewin, fc_setwin...)
