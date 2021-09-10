@@ -18,8 +18,6 @@ Full Colour Mode (FCM for short) is a new screen mode of the MEGA65's video cont
 
 Since in FCM, each 8x8 pixel character cell on the screen is referenced by a 16 bit pointer, it is not compatible to 'traditional' C64 text modes and therefore not accessible via standard console libraries, such as mega65-libc's own *conio.h*. This is where *fcio* comes in.
 
-Please note that at the moment, *fcio* "only" supports displaying graphics and text, but this might very well change in the future.
-
 # The Tutorial
 
 ## 1. Hello FCIO
