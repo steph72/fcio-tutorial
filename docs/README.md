@@ -24,7 +24,7 @@ Please note that at the moment, FCIO "only" supports displaying graphics and tex
 
 ## 1. Hello FCIO
 
-Let's start with something really simple: Switching the screen to full colour mode and displaying some text. In order to do so, simply clone the mega65-libc to a convenient location, type in the following code and save it at **test.c**.
+Let's start with something really simple: Switching the screen to full colour mode and displaying some text. In order to do so, simply clone the mega65-libc to a convenient location, type in the following code and save it as **test.c**.
 
 ```c
 #include <fcio.h>
