@@ -19,13 +19,13 @@ void main()
    fc_puts("As you turn the corner, suddenly a big\n"
            "shepherd dog stands in your way and\n"
            "demands treats.");
-           
+
    do {
       fc_puts("\n>");
       fc_textcolor(COLOUR_ORANGE);
       command = fc_input(38);
       fc_textcolor(COLOUR_GREEN);
-      fc_printf("\n%s",command);
+      fc_printf("\nSorry, I don't understand '%s'",command);
       free(command);
    } while (strcmp(command,"give treats"));
 
