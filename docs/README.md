@@ -83,12 +83,11 @@ So, with that knowledge, it's quite easy to set up a high resolution screen with
 
 ```c
 #include <fcio.h>
-#include <conio.h>
 
 void main() {
    byte i;
    fc_init(1,1,0,60,0);
-   bordercolor(6);
+   fc_bordercolor(6);
    for (i=0;i<60;++i) {
       fc_textcolor(1+(i%14));
       fc_gotoxy(i,i);
@@ -99,10 +98,9 @@ void main() {
 ```
 There are a few things noteworthy about this program:
 
-1. We include the `conio.h` header, because we're using the `bordercolor`function to change the border colour. This shows that `conio.h` and `fcio.h` are able to coexist (in fact, some portions of `fcio.h` depend on `conio.h`). 
-
-   (**IMPORTANT:** Don't even think about mixing `conio`s text output functions (clrscr, printf, etc.) to display text on a full colour screen (and vice versa) – it won't work and will most probably lead to very sad things™. *fcio* keeps some vital information stored in the memory area where the standard text screen used to be. Writing into this area is bound to cause all kinds of chaos)
-
+1. We're using `fc_bordercolor` to set the border colour, obviously. We *could* include `conio.h` instead and use its `bordercolor` function, but there are **two very good reasons for not doing so:** 
+   - To save precious program memory, *fcio* uses the standard text screen memory at $400 for its own purposes. Overwriting it by accidentally using standard `conio`'s text screen functions is bound to cause very sad things™ to happen.
+   - `conio.h` and `conio.c` add another whopping 7kb to the program code. Considering CC65's famously lousy code generation, every byte counts.
 2. You can use `fc_printf` just like you would use the regular `printf` function. It accepts the same variable arguments and acts just like its `stdio.h` counterpart. 
 
 Compile and link the program again. Before running it, remember to set your MEGA65 to operate in PAL mode, as NTSC mode doesn't provide quite enough resolution for a screen with 60 text rows.
@@ -202,13 +200,12 @@ Now it's time to expand our little program from section #2 to load and display o
 
 ```c
 #include <fcio.h>
-#include <conio.h>
 
 void main() {
    byte i;
    long t;
    fc_init(1,1,0,60,0);
-   bordercolor(6);
+   fc_bordercolor(6);
    fc_clrscr();
    for (i=0;i<60;++i) {
       fc_textcolor(1+(i%14));
@@ -281,7 +278,6 @@ env = Environment(
 test = env.Program('bin/fcdemo.c64', [
     'test.c',
     'mega65-libc/cc65/src/memory.c',
-    'mega65-libc/cc65/src/conio.c',
     'mega65-libc/cc65/src/fcio.c'
 ])
 ```
@@ -374,7 +370,6 @@ env = Environment(
 test = env.Program('bin/fcdemo.c64', [
     'test.c',
     'mega65-libc/cc65/src/memory.c',
-    'mega65-libc/cc65/src/conio.c',
     'mega65-libc/cc65/src/fcio.c'
 ])
 
@@ -436,7 +431,6 @@ But I digress. Let's put *fcio*'s windowing functions (and some more new stuff) 
 ```c
 #include <fcio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
 
 void main()
@@ -445,7 +439,7 @@ void main()
    char *command;
 
    fc_init(0, 0, 0, 30, 0);
-   bordercolor(6);
+   fc_bordercolor(6);
    fc_clrscr();
    fc_displayFCIFile("candor.fci", 3, 0);
 
@@ -505,7 +499,6 @@ Of course there is nothing stopping us from actually doing these things by ourse
 
 ```c
 #include <fcio.h>
-#include <conio.h>
 
 void main()
 {
